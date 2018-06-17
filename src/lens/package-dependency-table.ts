@@ -18,7 +18,7 @@ export class PackageDependencyTable {
     this.updateDependenciesTable(refId, obj.dependencies, this.dependencies);
     this.updateDependenciesTable(refId, obj.devDependencies, this.devDependencies);
 
-    this.packageTable[obj.name] = obj;
+    this.packageTable[refId] = obj;
   }
   public printPackageTable() {
     for (const obj in this.packageTable) {
@@ -50,8 +50,6 @@ export class PackageDependencyTable {
     const obj: Package = {
       name, version, description, repository, dependencies: {}, devDependencies: {}
     };
-
-    const refId = this.getId(name, version);
 
     for (const depName in dependencies) {
       const depId = this.getId(depName, dependencies[depName]);

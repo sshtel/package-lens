@@ -15,8 +15,8 @@ export class PackageDependencyTable {
 
   private packageTable: { [key: string]: Package } = {};
 
-  private dependencies: DependencyTable = new DependencyTable();
-  private devDependencies: DependencyTable = new DependencyTable();
+  private dependencyTable: DependencyTable = new DependencyTable();
+  private devDependencyTable: DependencyTable = new DependencyTable();
 
   constructor() {}
 
@@ -25,8 +25,8 @@ export class PackageDependencyTable {
     
     const refId = this.getId(obj.name, obj.version);
 
-    this.updateDependenciesTable(refId, obj.dependencies, this.dependencies);
-    this.updateDependenciesTable(refId, obj.devDependencies, this.devDependencies);
+    this.updateDependenciesTable(refId, obj.dependencies, this.dependencyTable);
+    this.updateDependenciesTable(refId, obj.devDependencies, this.devDependencyTable);
 
     this.packageTable[refId] = obj;
   }
@@ -37,14 +37,14 @@ export class PackageDependencyTable {
   }
 
   public printDependencies() {
-    for (const obj in this.dependencies) {
-      console.log(this.dependencies[obj]);
+    for (const obj in this.dependencyTable) {
+      console.log(this.dependencyTable[obj]);
     }
   }
 
   public printDevDependencies() {
-    for (const obj in this.devDependencies) {
-      console.log(this.devDependencies[obj]);
+    for (const obj in this.devDependencyTable) {
+      console.log(this.devDependencyTable[obj]);
     }
   }
   public addPackageFromRepository(addr: string) {

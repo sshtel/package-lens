@@ -1,0 +1,22 @@
+{
+  "name": "package-lens",
+  "version": "1.0.0",
+  "description": "NPM package lens is a very useful tool that tracks dependencies of NPM packages and illustrates it.",
+  "main": "./dist/app.js",
+  "scripts": {
+    "test": "node ./dist/test ./asset/package1."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sshtel/package-lens.git"
+  },
+  "author": "Seunghwa <sshtel@gmail.com> (Steve)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sshtel/package-lens/issues"
+  },
+  "homepage": "https://github.com/sshtel/package-lens#readme",
+  "devDependencies": {
+    "@types/node": "^10.3.3"
+  }
+}

@@ -4,7 +4,9 @@
   "description": "NPM package lens is a very useful tool that tracks dependencies of NPM packages and illustrates it.",
   "main": "./dist/app.js",
   "scripts": {
-    "test": "node ./dist/test ./asset/package1."
+    "build": "tsc",
+    "clean": "rm -rf ./dist",
+    "test": "node ./dist/test ./asset/package1.json ./asset/package2.json"
   },
   "repository": {
     "type": "git",

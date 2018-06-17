@@ -66,15 +66,14 @@ export class PackageDependencyTable {
 
   private updateDependenciesTable(refId: string, dependencies: { [key: string]: string }, destination: { [key: string]: DependencyPackage } ) {    
     for (const depName in dependencies) {
-      const depId = this.getId(depName, dependencies[depName]);
+      const value = dependencies[depName];
 
       // update dependency table
       if (!destination[depName]) {
         destination[depName] = { name: depName, referredBy: {} } as DependencyPackage;
       }
-      destination[depName].referredBy[refId] = depId;
+      destination[depName].referredBy[refId] = value;
 
     }
   }
 };
-

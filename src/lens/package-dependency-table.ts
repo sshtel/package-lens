@@ -1,12 +1,22 @@
 import { Package, DependencyPackage } from './package.interface';
 
+class DependencyTable {
+  private table: { [key: string]: DependencyPackage } = {}; // key: packageId
+  
+  public add(name: string, referredById: string, id: string) {
+    if(!this.table[name]) {
+      this.table[name] = { name, referredBy: {}, fragmentCount: 0 } as DependencyPackage;
+    }
+    this.table[name].referredBy[referredById] = id;
+  }
+}
+
 export class PackageDependencyTable {
 
   private packageTable: { [key: string]: Package } = {};
 
-  private dependencies: { [key: string]: DependencyPackage } = {}; // key: packageId
-  private devDependencies: { [key: string]: DependencyPackage } = {}; // key: packageId
-  private bundleDependencies: { [key: string]: DependencyPackage } = {}; // key: packageId
+  private dependencies: DependencyTable = new DependencyTable();
+  private devDependencies: DependencyTable = new DependencyTable();
 
   constructor() {}
 
@@ -70,18 +80,11 @@ export class PackageDependencyTable {
     return obj;
   }
 
-  private updateDependenciesTable(refId: string, dependencies: { [key: string]: string }, depTable: { [key: string]: DependencyPackage } ) {    
+  private updateDependenciesTable(refId: string, dependencies: { [key: string]: string }, depTable: DependencyTable ) {    
     for (const name in dependencies) {
       const value = dependencies[name];
 
-      // update dependency table
-      if (!depTable[name]) {
-        depTable[name] = { name, referredBy: {}, fragmentCount: 0 } as DependencyPackage;
-      }
-      depTable[name].referredBy[refId] = value;
-
-      // check fragment
-      
+      depTable.add(name, refId, value);
 
     }
   }

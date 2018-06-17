@@ -5,10 +5,19 @@ export class DependencyTable {
   
   public add(name: string, referredById: string, id: string) {
     if(!this.table[name]) {
-      this.table[name] = { name, referredBy: {}, versionFragment: 0 } as DependencyPackage;
+      this.table[name] = { name, referredBy: {}, versionFragment: 0, referenceCount: 0 } as DependencyPackage;
     }
-    this.table[name].referredBy[referredById] = id;
-    this.updateFragmentCount(this.table[name]);
+    const dependencyPackage = this.table[name];
+    
+    if(!dependencyPackage.referredBy[referredById]) {
+      dependencyPackage.referredBy[referredById] = id;
+      dependencyPackage.referenceCount++;
+      this.updateFragmentCount(this.table[name]);
+    } else {
+      // referredBy object is already exist.. throw error here?
+    }
+
+    
   }
   public getTable() {
     return this.table;

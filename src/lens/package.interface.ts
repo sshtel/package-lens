@@ -12,4 +12,5 @@ export type DependencyPackage = {
   name: string;
   referredBy: { [key: string]: string };  // {key} package depends on {value} package
   versionFragment: number;
+  referenceCount: number;
 };

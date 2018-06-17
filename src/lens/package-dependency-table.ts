@@ -46,33 +46,42 @@ export class PackageDependencyTable {
   }
 
   private getPackageFromJson(param: any){
-    const { name, version, description, repository, dependencies, devDependencies} = param;
     const obj: Package = {
-      name, version, description, repository, dependencies: {}, devDependencies: {}
+      name: param.name,
+      version: param.version,
+      description: param.description,
+      repository: param.repository,
+      dependencies: {},
+      devDependencies: {}
     };
 
-    for (const depName in dependencies) {
-      const depId = this.getId(depName, dependencies[depName]);
-      obj.dependencies[depName] = depId;
+    const dependencies = param.dependencies;
+    for (const name in dependencies) {
+      const id = this.getId(name, dependencies[name]);
+      obj.dependencies[name] = id;
     }
 
-    for (const depName in devDependencies) {
-      const depId = this.getId(depName, devDependencies[depName]);
-      obj.devDependencies[depName] = depId;
+    const devDependencies = param.dependencies;
+    for (const name in devDependencies) {
+      const id = this.getId(name, devDependencies[name]);
+      obj.devDependencies[name] = id;
     }
 
     return obj;
   }
 
-  private updateDependenciesTable(refId: string, dependencies: { [key: string]: string }, destination: { [key: string]: DependencyPackage } ) {    
-    for (const depName in dependencies) {
-      const value = dependencies[depName];
+  private updateDependenciesTable(refId: string, dependencies: { [key: string]: string }, depTable: { [key: string]: DependencyPackage } ) {    
+    for (const name in dependencies) {
+      const value = dependencies[name];
 
       // update dependency table
-      if (!destination[depName]) {
-        destination[depName] = { name: depName, referredBy: {} } as DependencyPackage;
+      if (!depTable[name]) {
+        depTable[name] = { name, referredBy: {}, fragmentCount: 0 } as DependencyPackage;
       }
-      destination[depName].referredBy[refId] = value;
+      depTable[name].referredBy[refId] = value;
+
+      // check fragment
+      
 
     }
   }

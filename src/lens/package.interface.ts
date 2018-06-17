@@ -11,5 +11,5 @@ export type Package = {
 export type DependencyPackage = {
   name: string;
   referredBy: { [key: string]: string };  // {key} package depends on {value} package
-  fragmentCount: number;
+  versionFragment: number;
 };

@@ -1,13 +1,26 @@
 import { Package, DependencyPackage } from './package.interface';
 
-class DependencyTable {
+export class DependencyTable {
   private table: { [key: string]: DependencyPackage } = {}; // key: packageId
   
   public add(name: string, referredById: string, id: string) {
     if(!this.table[name]) {
-      this.table[name] = { name, referredBy: {}, fragmentCount: 0 } as DependencyPackage;
+      this.table[name] = { name, referredBy: {}, versionFragment: 0 } as DependencyPackage;
     }
     this.table[name].referredBy[referredById] = id;
+    this.updateFragmentCount(this.table[name]);
+  }
+  public getTable() {
+    return this.table;
+  }
+  private updateFragmentCount(param: DependencyPackage){
+    const referredBy = param.referredBy;
+    const tempTable: { [key: string]: string } = {};
+    for(const key in referredBy){
+      const tempKey = referredBy[key];
+      tempTable[tempKey] = key;
+    }
+    param.versionFragment = Object.keys(tempTable).length;
   }
 }
 
@@ -30,22 +43,16 @@ export class PackageDependencyTable {
 
     this.packageTable[refId] = obj;
   }
-  public printPackageTable() {
-    for (const obj in this.packageTable) {
-      console.log(this.packageTable[obj]);
-    }
+  public getPackageTable() {
+    return this.packageTable;
   }
 
-  public printDependencies() {
-    for (const obj in this.dependencyTable) {
-      console.log(this.dependencyTable[obj]);
-    }
+  public getDependencyTable() {
+    return this.dependencyTable.getTable();
   }
 
-  public printDevDependencies() {
-    for (const obj in this.devDependencyTable) {
-      console.log(this.devDependencyTable[obj]);
-    }
+  public getDevDependencyTable() {
+    return this.devDependencyTable.getTable();
   }
   public addPackageFromRepository(addr: string) {
     // input is node project repository addresses like github or gitlab
@@ -71,7 +78,7 @@ export class PackageDependencyTable {
       obj.dependencies[name] = id;
     }
 
-    const devDependencies = param.dependencies;
+    const devDependencies = param.devDependencies;
     for (const name in devDependencies) {
       const id = this.getId(name, devDependencies[name]);
       obj.devDependencies[name] = id;

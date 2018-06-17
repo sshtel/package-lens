@@ -12,6 +12,6 @@ process.argv.forEach( (val, index) => {
 // obj.add('https://github.com/sshtel/package-lens'); // this will be supported later
 
 obj.printPackageTable();
-obj.printDependencies();
-obj.printDevDependencies();
+obj.printDependencyTable();
+obj.printDevDependencyTable();
 

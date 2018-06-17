@@ -7,13 +7,15 @@ export class PackageLens {
   }
 
   printPackageTable() {
-    this.table.printPackageTable();
+    console.log('============ Package Table ============');
+    console.log(this.table.getPackageTable());
   }
-
-  printDependencies() {
-    this.table.printDependencies();
+  printDependencyTable() {
+    console.log('============ Dependency Table ============');
+    console.log(this.table.getDependencyTable());
   }
-  printDevDependencies() {
-    this.table.printDependencies();
+  printDevDependencyTable() {
+    console.log('============ Dev Dependency Table ============');
+    console.log(this.table.getDevDependencyTable());
   }
 }
